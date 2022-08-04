@@ -1,2 +1,2 @@
-# IoTDemo
- IOTDemo playbooks
+# FlexCache Demo
+  FlexCache Demo and Automation playbooks

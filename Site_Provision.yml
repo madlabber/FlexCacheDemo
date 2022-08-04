@@ -1,7 +1,7 @@
 ---
 - hosts: localhost 
   gather_facts: false
-  name: Configure ONTAP Select 
+  name: Provision Cache Site
   vars:
     https: true
     validate_certs: false
@@ -109,6 +109,18 @@
       nameservers: "{{ site_dns_server }}"
       skip_validation: true
     <<: *retry_settings 
+  - name: Expand Root Volume 
+    na_ontap_volume: 
+      <<: *site_login
+      state: present 
+      name: "{{ site_svm_name }}_root"
+      aggregate_name: "{{ site_aggr_name }}" 
+      size: "40" 
+      size_unit: gb 
+      space_guarantee: none
+      volume_security_style: unix
+      vserver: "{{ site_svm_name }}"
+    <<: *retry_settings
   - name: Create Site Volume 
     na_ontap_volume: 
       <<: *site_login
